@@ -1,3 +1,4 @@
 #! /bin/sh
 echo "Compile next"
 cd $1/apps/next && yarn build
+cd $1/apps/next && rm -rf node_modules
