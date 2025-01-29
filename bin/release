@@ -1,4 +1,0 @@
-#! /bin/sh
-
-echo "Build next and rails app"
-exit 0
