@@ -2,6 +2,6 @@
 echo "Compile assets"
 echo $1
 cd $1
-rm -rf Gemfile.lock && rm -rf Gemfile
+mv ./vendor/bundle ./apps/rails/vendor/
 cd $1/apps/rails && bundle install && bundle exec rake assets:precompile
 cd $1/apps/next && yarn build
