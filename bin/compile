@@ -1,3 +1,6 @@
 #! /bin/sh
-cd $1 && bundle exec rake assets:precompile
-cd $1 && yarn build
+echo "Compile assets"
+echo $1
+cd $1
+cd $1/app/rails && bundle exec rake assets:precompile
+cd $1/app/next && yarn build
