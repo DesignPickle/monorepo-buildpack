@@ -73,7 +73,7 @@ mkdir -p "$BUILD_DIR/.profile.d"
 touch "$BUILD_DIR/.profile.d/startup.sh"
 
 cat >"$BUILD_DIR/.profile.d/startup.sh" <<EOL
-  export ASDF_DATA_DIR="$HOME/tmp/cache/.asdf"
+  export ASDF_DATA_DIR="$BUILD_DIR/tmp/cache/.asdf"
   export PATH="$ASDF_DATA_DIR/bin:$PATH:$ASDF_DATA_DIR/shims:$PATH"
   asdf global ruby 3.2.2
 EOL
