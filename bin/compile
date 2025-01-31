@@ -5,7 +5,6 @@ export CACHE_DIR=$2
 export ENV_DIR=$3
 
 cd $BUILD_DIR
-pwd
 
 set -eo pipefail
 
@@ -61,7 +60,7 @@ asdf_plugin_update() {
 
   bundle config --delete frozen
   bundle install --without development:test --path="$(gem env gemdir)"
-#   bundle exec rake assets:precompile
+  bundle exec rake assets:precompile
 )
 
 # Copy dependencies to the build
