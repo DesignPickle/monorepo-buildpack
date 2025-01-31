@@ -28,6 +28,8 @@ asdf_plugin_update() {
   if [ -d "$cache/node_modules" ]; then
     mv "$cache/node_modules" .
   fi
+  
+  npm install -g yarn
 
   yarn install
   cd apps/next
