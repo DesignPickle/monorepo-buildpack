@@ -59,7 +59,7 @@ asdf_plugin_update() {
   asdf reshim ruby
 
   bundle config --delete frozen
-  bundle install --without development:test --path="$(gem env gemdir)"
+  bundle install
   bundle exec rake assets:precompile
 )
 
