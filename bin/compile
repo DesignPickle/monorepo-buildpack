@@ -46,7 +46,7 @@ asdf_plugin_update() {
 
   cd $BUILD_DIR/apps/next
   yarn build
-  rm -rf node_modules
+  mv node_modules "$cache"
 )
 
 # Build Ruby server
@@ -54,7 +54,7 @@ asdf_plugin_update() {
   cd $BUILD_DIR/apps/rails
   asdf_plugin_update ruby https://github.com/asdf-vm/asdf-ruby.git
   asdf install ruby 3.2.2
-
+  asdf global ruby 3.2.2
   gem install bundler:2.4.22 --no-document --conservative
   gem update --system --no-document
   asdf reshim ruby
