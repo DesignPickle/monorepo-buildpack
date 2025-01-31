@@ -44,14 +44,14 @@ asdf_plugin_update() {
 
   pwd
 
-  cd $BUILD_DIR/app/apps/next
+  cd $BUILD_DIR/apps/next
   yarn build
   rm -rf node_modules
 )
 
 # Build Ruby server
 (
-  cd $BUILD_DIR/app/apps/rails
+  cd $BUILD_DIR/apps/rails
   asdf_plugin_update ruby https://github.com/asdf-vm/asdf-ruby.git
   asdf install ruby 3.2.2
 
@@ -74,5 +74,5 @@ touch "$BUILD_DIR/.profile.d/startup.sh"
 cat >"$BUILD_DIR/.profile.d/startup.sh" <<EOL
   export ASDF_DATA_DIR="$HOME/tmp/cache/.asdf"
   export PATH="$ASDF_DATA_DIR/bin:$PATH:$ASDF_DATA_DIR/shims:$PATH"
-  asdf global ruby 2.6.1
+  asdf global ruby 3.2.2
 EOL
