@@ -36,6 +36,7 @@ asdf_plugin_update() {
   ls -la
 
   sleep 120
+  pwd
 
   cd apps/next
   yarn build
