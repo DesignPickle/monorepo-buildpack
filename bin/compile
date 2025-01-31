@@ -35,6 +35,8 @@ asdf_plugin_update() {
   yarn install
   ls -la
 
+  sleep 120
+
   cd apps/next
   yarn build
   rm -rf node_modules
