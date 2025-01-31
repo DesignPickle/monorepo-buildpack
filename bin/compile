@@ -1,6 +1,11 @@
 #!/bin/bash
 
-cd app
+export BUILD_DIR=$1
+export CACHE_DIR=$2
+export ENV_DIR=$3
+
+cd $BUILD_DIR
+pwd
 
 set -eo pipefail
 
@@ -39,14 +44,14 @@ asdf_plugin_update() {
 
   pwd
 
-  cd apps/next
+  cd $BUILD_DIR/app/apps/next
   yarn build
   rm -rf node_modules
 )
 
 # Build Ruby server
 (
-  cd apps/rails
+  cd $BUILD_DIR/app/apps/rails
   asdf_plugin_update ruby https://github.com/asdf-vm/asdf-ruby.git
   asdf install ruby 3.2.2
 
