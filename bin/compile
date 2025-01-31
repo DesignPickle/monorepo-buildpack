@@ -33,6 +33,8 @@ asdf_plugin_update() {
   npm install -g yarn
 
   yarn install
+  ls -la
+
   cd apps/next
   yarn build
   rm -rf node_modules
