@@ -1,6 +1,8 @@
 #! /bin/sh
 echo "Compile next"
 
+
+cd $1
 ls -la
 ls profile.d -la
 
