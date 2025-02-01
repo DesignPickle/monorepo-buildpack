@@ -5,6 +5,7 @@ export CACHE_DIR=$2
 export ENV_DIR=$3
 
 cd $BUILD_DIR
+
 set -eo pipefail
 
 # Prepare dependencies
@@ -20,10 +21,11 @@ asdf_plugin_update() {
   if ! asdf plugin-list | grep -Fq "$1"; then
     asdf plugin-add "$1" "$2"
   fi
+
   asdf plugin-update "$1"
 }
 
-# Install Node.js & dependencies
+# Build Node client
 (
   export NODEJS_CHECK_SIGNATURES=no
   asdf_plugin_update nodejs https://github.com/asdf-vm/asdf-nodejs.git
@@ -33,15 +35,20 @@ asdf_plugin_update() {
   if [ -d "$cache/node_modules" ]; then
     mv "$cache/node_modules" .
   fi
-
+  
   npm install -g yarn
+
   yarn install
-  cd $BUILD_DIR/apps/react
+  ls -la
+
+  pwd
+
+  cd $BUILD_DIR/apps/next
   yarn build
   mv node_modules "$cache"
 )
 
-# Install Ruby & dependencies
+# Build Ruby server
 (
   cd $BUILD_DIR/apps/rails
   asdf_plugin_update ruby https://github.com/asdf-vm/asdf-ruby.git
@@ -51,24 +58,24 @@ asdf_plugin_update() {
   gem update --system --no-document
   asdf reshim ruby
 
-  export BUNDLE_GEMFILE=$BUILD_DIR/apps/rails/Gemfile
-  export GEM_HOME=$BUILD_DIR/apps/rails/vendor/bundle
-  export PATH="$GEM_HOME/bin:$PATH"
-
-  bundle config set --local path 'vendor/bundle'
-  bundle install --deployment --without development test
+  bundle config --delete frozen
+  bundle install
   bundle exec rake assets:precompile
 )
 
-# Persist ASDF data
+# Copy dependencies to the build
 mkdir -p "$BUILD_DIR/tmp/cache"
 cp -R "$ASDF_DATA_DIR" "$BUILD_DIR/tmp/cache/.asdf"
 
-# Ensure the environment is set up at runtime
+# Create script to load dependencies at runtime
 mkdir -p "$BUILD_DIR/.profile.d"
+touch "$BUILD_DIR/.profile.d/startup.sh"
+
 cat >"$BUILD_DIR/.profile.d/startup.sh" <<EOL
-export ASDF_DATA_DIR="$BUILD_DIR/tmp/cache/.asdf"
-export PATH="\$ASDF_DATA_DIR/bin:\$PATH:\$ASDF_DATA_DIR/shims:\$BUILD_DIR/apps/rails/vendor/bundle/bin"
-export GEM_HOME="$BUILD_DIR/apps/rails/vendor/bundle"
-export BUNDLE_GEMFILE="$BUILD_DIR/apps/rails/Gemfile"
+  export ASDF_DATA_DIR="$BUILD_DIR/tmp/cache/.asdf"
+  export PATH="$ASDF_DATA_DIR/bin:$PATH:$ASDF_DATA_DIR/shims:$PATH"
+  asdf global ruby 3.2.2
 EOL
+
+
+sleep 120
