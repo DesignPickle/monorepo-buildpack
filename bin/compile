@@ -36,7 +36,7 @@ asdf_plugin_update() {
 
   npm install -g yarn
   yarn install
-  cd $BUILD_DIR/apps/react
+  cd $BUILD_DIR/apps/next
   yarn build
   mv node_modules "$cache"
 )
