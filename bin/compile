@@ -1,4 +1,8 @@
 #! /bin/sh
 echo "Compile next"
+
+ls -la
+ls profile.d -la
+
 cd $1/apps/next && yarn build
 cd $1/apps/next && rm -rf node_modules
